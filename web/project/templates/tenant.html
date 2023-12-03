@@ -4,227 +4,228 @@
 
 {% block content%}
 <div class="row">
-    <div class="row">
-        <div class="col-sm-8">
-            <p>
-                <h4>{{tenant.name}}</h4>
-                {{tenant.name_long}}
-                <h5>{{env.name}}</h5>
-            </p>
-            <p>
-                <table class="table">
-                    <thead>
-                      <tr>
-                        <th class="w-25" scope="col">FMG name</th>
-                        <th class="w-25" scope="col">FAZ name</th>
-                        <th class="w-25" scope="col">Keyvault Azure</th>
-                        <th class="w-25" scope="col">Keyvault Network</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{{env.fmg_name}}</td>
-                            <td>{{env.faz_name}}</td>
-                            <td>{{env.az_keyvault}}</td>
-                            <td>{{env.fmg_keyvault}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </p>
-        </div>
+  <div class="col-sm-8">
+      <p>
+          <h4>Details for Tenant <strong>{{tenant.name}}</strong></h4>
+          {{tenant.name_long}}
+          <h5>{{env.name}}</h5>
+      </p>
+      <p>
+        <a class="btn btn-primary" href="{{ url_for('home') }}" role="button">Home</a>
+        <a class="btn btn-danger" href="{{ url_for('del_tenant', id=tenant.id) }}" role="button">Remove</a>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="row">
+    <div class="col-sm-8">
+      <p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="w-25" scope="col">FMG name</th>
+              <th class="w-25" scope="col">FAZ name</th>
+              <th class="w-25" scope="col">Keyvault Azure</th>
+              <th class="w-25" scope="col">Keyvault Network</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{env.fmg_name}}</td>
+              <td>{{env.faz_name}}</td>
+              <td>{{env.az_keyvault}}</td>
+              <td>{{env.fmg_keyvault}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </p>
     </div>
-    <div class="row">
-        <div class="col-sm-8">
-            <p>
-                <h4>Contacts</h4>
-                <table class="table">
-                    <thead>
-                      <tr>
-                        <th class="w-25" scope="col">Name</th>
-                        <th class="w-25" scope="col">Email</th>
-                        <th class="w-25" scope="col"></th>
-                        <th class="w-25" scope="col"><a class="btn btn-success btn-sm" href="{{ url_for('create_contact', id_tenant=tenant.id) }}" role="button">create</a></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        {% for user in tenant.users %}
-                        <tr>
-                            <td>{{ user.name }} {{ user.surname }}</td>
-                            <td>{{ user.email }}</td>
-                            <td></td>
-                            <td><a class="btn btn-outline-danger btn-sm" href="{{ url_for('remove_contact', id=user.id) }}" role="button">delete</a></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <p>
+        <h4>Contacts</h4>
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="w-25" scope="col">Name</th>
+                <th class="w-25" scope="col">Email</th>
+                <th class="w-25" scope="col"></th>
+                <th class="w-25" scope="col"><a class="btn btn-success btn-sm" href="{{ url_for('create_contact', id_tenant=tenant.id) }}" role="button">create</a></th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for user in tenant.users %}
+              <tr>
+                <td>{{ user.name }} {{ user.surname }}</td>
+                <td>{{ user.email }}</td>
+                <td></td>
+                <td><a class="btn btn-outline-danger btn-sm" href="{{ url_for('remove_contact', id=user.id) }}" role="button">delete</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </p>
+        <p>
+          <h4>Sites and Networks</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="w-25" scope="col">Name</th>
+                  <th class="w-25" scope="col">Site</th>
+                  <th class="w-25" scope="col">Subnet</th>
+                  <th class="w-25" scope="col"></th>
+                  <th class="w-25" scope="col"><a class="btn btn-success btn-sm" href="{{ url_for('create_network', id_tenant=tenant.id) }}" role="button">create</a></th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for network in tenant.networks %}
+                <tr>
+                  <td>{{ network.name }}</td>
+                    <td>{{ network.code }}</td>
+                    <td>{{ network.subnet }}</td>
+                    <td></td>
+                    <td><a class="btn btn-outline-danger btn-sm" href="{{ url_for('remove_network', id=network.id) }}" role="button">delete</a></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             </p>
             <p>
-                <h4>Sites and Networks</h4>
-                <table class="table">
-                    <thead>
-                      <tr>
-                        <th class="w-25" scope="col">Name</th>
-                        <th class="w-25" scope="col">Site</th>
-                        <th class="w-25" scope="col">Subnet</th>
-                        <th class="w-25" scope="col"></th>
-                        <th class="w-25" scope="col"><a class="btn btn-success btn-sm" href="{{ url_for('create_network', id_tenant=tenant.id) }}" role="button">create</a></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        {% for network in tenant.networks %}
-                        <tr>
-                            <td>{{ network.name }}</td>
-                            <td>{{ network.code }}</td>
-                            <td>{{ network.subnet }}</td>
-                            <td></td>
-                            <td><a class="btn btn-outline-danger btn-sm" href="{{ url_for('remove_network', id=network.id) }}" role="button">delete</a></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </p>
-            <p>
-                <h4>Zones and Objects</h4>
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th class="w-20" scope="col">Zone</th>
-                      <th class="w-40" scope="col"></th>
-                      <th class="w-40" scope="col"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  {% for zone in env.zones %}
+              <h4>Zones and Objects</h4>
+              <table class="table">
+                <thead>
                   <tr>
-                    <td><strong>{{ zone.code }} {{ zone.envs }}</strong></td>
-                    <td>
-                      <p>{{ zone.name_long }}</p>
-                      <p>
+                    <th class="w-20" scope="col">Zone</th>
+                    <th class="w-40" scope="col"></th>
+                    <th class="w-40" scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for zone in env.zones %}
+                <tr>
+                  <td><strong>{{ zone.code }} {{ zone.envs }}</strong></td>
+                  <td>
+                    <p>{{ zone.name_long }}</p>
+                    <p>
+                      <div class="accordion accordion-flush"
+                      id="accordionPolicies">
+                          <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingPolicies{{ zone.code }}">
+                                  <button class="accordion-button collapsed"
+                                      type="button"
+                                      data-bs-toggle="collapse"
+                                      data-bs-target="#collapsePolicies{{ zone.code }}"
+                                      aria-expanded="true"
+                                      aria-controls="collapsePolicies{{ zone.code }}">
+                                      <strong>Policies</strong>
+                                  </button>
+                              </h2>
+                              <div id="collapsePolicies{{ zone.code }}"
+                                  class="accordion-collapse collapse collapse"
+                                  aria-labelledby="headingPolicies{{ zone.name }}"
+                                  data-bs-parent="#collapsePolicies{{ zone.code }}">
+                                  <div class="accordion-body">
+                                    <table class="table">
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">Description</th>
+                                          <th scope="col"></th>
+                                          <th scope="col">Allowed</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                      {% for policy in zone.policies %}
+                                        <tr>
+                                          <td>{{ policy.description }}</td>
+                                          <td></td>
+                                          <td>{{ policy.code }}</td>
+                                        </tr>
+                                      {% endfor %}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                        </div>
                         <div class="accordion accordion-flush"
-                        id="accordionPolicies">
+                        id="accordionObjects">
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingPolicies{{ zone.code }}">
+                                <h2 class="accordion-header" id="headingObjects{{ zone.code }}">
                                     <button class="accordion-button collapsed"
                                         type="button"
                                         data-bs-toggle="collapse"
-                                        data-bs-target="#collapsePolicies{{ zone.code }}"
+                                        data-bs-target="#collapseObjects{{ zone.code }}"
                                         aria-expanded="true"
-                                        aria-controls="collapsePolicies{{ zone.code }}">
-                                        <strong>Policies</strong>
+                                        aria-controls="collapseObjects{{ zone.code }}">
+                                        <strong>Objects</strong>
                                     </button>
                                 </h2>
-                                <div id="collapsePolicies{{ zone.code }}"
+                                <div id="collapseObjects{{ zone.code }}"
                                     class="accordion-collapse collapse collapse"
-                                    aria-labelledby="headingPolicies{{ zone.name }}"
-                                    data-bs-parent="#collapsePolicies{{ zone.code }}">
+                                    aria-labelledby="headingObjects{{ zone.name }}"
+                                    data-bs-parent="#collapseObjects{{ zone.code }}">
                                     <div class="accordion-body">
                                       <table class="table">
                                         <thead>
                                           <tr>
+                                            <th scope="col">Tenant</th>
+                                            <th scope="col">Code</th>
+                                            <th scope="col">Value</th>
                                             <th scope="col">Description</th>
-                                            <th scope="col"></th>
-                                            <th scope="col">Allowed</th>
                                           </tr>
                                         </thead>
                                         <tbody>
-                                        {% for policy in zone.policies %}
+                                          {% for object in zone.fqdn_objects %}
                                           <tr>
-                                            <td>{{ policy.description }}</td>
-                                            <td></td>
-                                            <td>{{ policy.code }}</td>
+                                          <td>
+                                            {% if not object.tenant_id %}
+                                              <button class="btn btn-outline-danger btn-sm">{{ env.name }}</button>
+                                            {% else %}
+                                              {% for tenant in env.tenants %}
+                                              {% if tenant.id == object.tenant_id %}
+                                              <button class="btn btn-outline-primary btn-sm">{{ tenant.name }}</button>
+                                              {% endif %}
+                                              {% endfor %}
+                                            {% endif %}
+                                          </td>
+                                            <td>{{ object.code }}</td>
+                                            <td>{{ object.fqdn }}</td>
+                                            <td>{{ object.description }}</td>
                                           </tr>
                                         {% endfor %}
+                                        {% for object in zone.network_objects %}
+                                        <tr>
+                                          <td>
+                                            {% if not object.tenant_id %}
+                                              <button class="btn btn-outline-danger btn-sm">{{ env.name }}</button>
+                                            {% else %}
+                                              {% for tenant in env.tenants %}
+                                              {% if tenant.id == object.tenant_id %}
+                                              <button class="btn btn-outline-primary btn-sm">{{ tenant.name }}</button>
+                                              {% endif %}
+                                              {% endfor %}
+                                            {% endif %}
+                                          </td>
+                                          <td>{{ object.code }}</td>
+                                          <td>{{ object.subnet }}</td>
+                                          <td>{{ object.description }}</td>
+                                        </tr>
+                                      {% endfor %}
                                         </tbody>
                                       </table>
                                     </div>
                                   </div>
                                 </div>
                           </div>
-                          <div class="accordion accordion-flush"
-                          id="accordionObjects">
-                              <div class="accordion-item">
-                                  <h2 class="accordion-header" id="headingObjects{{ zone.code }}">
-                                      <button class="accordion-button collapsed"
-                                          type="button"
-                                          data-bs-toggle="collapse"
-                                          data-bs-target="#collapseObjects{{ zone.code }}"
-                                          aria-expanded="true"
-                                          aria-controls="collapseObjects{{ zone.code }}">
-                                          <strong>Objects</strong>
-                                      </button>
-                                  </h2>
-                                  <div id="collapseObjects{{ zone.code }}"
-                                      class="accordion-collapse collapse collapse"
-                                      aria-labelledby="headingObjects{{ zone.name }}"
-                                      data-bs-parent="#collapseObjects{{ zone.code }}">
-                                      <div class="accordion-body">
-                                        <table class="table">
-                                          <thead>
-                                            <tr>
-                                              <th scope="col">Tenant</th>
-                                              <th scope="col">Code</th>
-                                              <th scope="col">Value</th>
-                                              <th scope="col">Description</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                            {% for object in zone.fqdn_objects %}
-                                            <tr>
-                                            <td>
-                                              {% if not object.tenant_id %}
-                                                <button class="btn btn-outline-danger btn-sm">{{ env.name }}</button>
-                                              {% else %}
-                                                {% for tenant in env.tenants %}
-                                                {% if tenant.id == object.tenant_id %}
-                                                <button class="btn btn-outline-primary btn-sm">{{ tenant.name }}</button>
-                                                {% endif %}
-                                                {% endfor %}
-                                              {% endif %}
-                                            </td>
-                                              <td>{{ object.code }}</td>
-                                              <td>{{ object.fqdn }}</td>
-                                              <td>{{ object.description }}</td>
-                                            </tr>
-                                          {% endfor %}
-                                          {% for object in zone.network_objects %}
-                                          <tr>
-                                            <td>
-                                              {% if not object.tenant_id %}
-                                                <button class="btn btn-outline-danger btn-sm">{{ env.name }}</button>
-                                              {% else %}
-                                                {% for tenant in env.tenants %}
-                                                {% if tenant.id == object.tenant_id %}
-                                                <button class="btn btn-outline-primary btn-sm">{{ tenant.name }}</button>
-                                                {% endif %}
-                                                {% endfor %}
-                                              {% endif %}
-                                            </td>
-                                            <td>{{ object.code }}</td>
-                                            <td>{{ object.subnet }}</td>
-                                            <td>{{ object.description }}</td>
-                                          </tr>
-                                        {% endfor %}
-                                          </tbody>
-                                        </table>
-                                      </div>
-                                    </div>
-                                  </div>
-                            </div>
-                        </p>
-                    </td>
-                  </tr>
-                  {% endfor %}
-                  </tbody>
-                </table>
-                <td><a class="btn btn-outline-secondary btn-sm" href="{{ url_for('environments') }}" role="button">Back</a></td>
+                      </p>
+                  </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+              </table>
             </p>
         </div>
     </div>
-</div>
-<div class="row">
-    <p>
-        <a class="btn btn-primary" href="{{ url_for('home') }}" role="button">Home</a>
-        <a class="btn btn-danger" href="{{ url_for('remove_tenant', id=tenant.id) }}" role="button">Remove</a>
-    </p>
 </div>
 {% endblock %}
