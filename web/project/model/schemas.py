@@ -62,6 +62,7 @@ tenant_fqdn_object_schema = TenantFqdnObjectSchema()
 tenant_fqdn_objects_schema = TenantFqdnObjectSchema(many=True)
 
 class TenantObjectSchema(OneOfSchema):
+    type_field = "type_field"
     type_schemas = {    "TenantNetworkObject": TenantNetworkObjectSchema,
                         "TenantFqdnObject": TenantFqdnObjectSchema,}
 
