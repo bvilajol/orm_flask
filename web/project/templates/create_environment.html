@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Environment{% endblock %}
+
+{% block content%}
+<p>
+    <h5>
+        Add a new Environment
+    </h5>
+</p>
+
+<form class="form" method="post" role="form">
+{{ form.csrf_token }}
+    <div class="row mb-3">
+        <div class="col-sm-3">
+        {{ form.name.label }}
+        {{ form.name(size=24, class_="form-control") }}
+            {% if form.name.errors %}
+            <ul class="errors">
+                {% for error in form.name.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+        {{ form.fmg_name.label }}
+        {{ form.fmg_name(size=16, class_="form-control") }}
+            {% if form.fmg_name.errors %}
+            <ul class="errors">
+                {% for error in form.fmg_name.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+        {{ form.faz_name.label }}
+        {{ form.faz_name(size=16, class_="form-control") }}
+            {% if form.faz_name.errors %}
+            <ul class="errors">
+                {% for error in form.faz_name.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+        {{ form.az_keyvault.label }}
+        {{ form.az_keyvault(size=16, class_="form-control") }}
+            {% if form.az_keyvault.errors %}
+            <ul class="errors">
+                {% for error in form.az_keyvault.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+        {{ form.fmg_keyvault.label }}
+        {{ form.fmg_keyvault(size=16, class_="form-control") }}
+            {% if form.fmg_keyvault.errors %}
+            <ul class="errors">
+                {% for error in form.fmg_keyvault.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+        <button type="submit" class="btn btn-success">Create</button>
+        <a class="btn btn-outline-danger" href="{{ url_for('environments')}}" role="button">Cancel</a>
+        </div>
+    </div>
+</form>
+{% endblock %}

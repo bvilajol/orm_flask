@@ -1,0 +1,883 @@
+---
+objects:
+  - Environment:
+    name: ACME Company
+    fmg_name: fmg.acme.nl
+    faz_name: faz.acme.nl
+    az_keyvault: key1
+    fmg_keyvault: key2
+  - Environment:
+    name: TELCO Provider
+    fmg_name: fmg.boom.es
+    faz_name: faz.boom.es
+    az_keyvault: key3
+    fmg_keyvault: key4
+  - Environment:
+    name: INDUSTAN GAMES IS 
+    fmg_name: fmg.biblio.uk
+    faz_name: fmg.biblio.uk
+    az_keyvault: key5
+    fmg_keyvault: key6
+  - Zone:
+    name: Zone 0
+    code: Z00
+    description: Untrusted (Internet, guest, external)
+    env_id: 1
+  - Zone:
+    name: Zone 1
+    code: Z01
+    description: DMZ (DMZ for DC and SITES)
+    env_id: 1
+  - Zone:
+    name: Zone 2
+    code: Z02
+    description: Untrusted Internal (Exposed)
+    env_id: 1
+  - Zone:
+    name: Zone 3
+    code: Z03
+    description: Untrusted users (Intranet, internal)
+    env_id: 1
+  - Zone:
+    name: Zone 4
+    code: Z04
+    description: Untrusted servers (extranet)
+    env_id: 1
+  - Zone:
+    name: Zone 41
+    code: Z41
+    description: Trusted users (sslvpn w/2fa)
+    env_id: 1
+  - Zone:
+    name: Zone 5
+    code: Z05
+    description: Trusted servers Low (intranet non PCI-DSS)
+    env_id: 1
+  - Zone:
+    name: Zone 6
+    code: Z06
+    description: Management
+    env_id: 1
+  - Zone:
+    name: Zone 7
+    code: Z07
+    description: Audit
+    env_id: 1
+  - Zone:
+    name: Zone 8
+    code: Z08
+    description: Trusted servers High (intranet non PCI-DSS)
+    env_id: 1
+  - ZonePolicy:
+    code: True
+    tx_id: 1
+    rx_id: 2
+    description: Traffic from Z00 to Z01
+  - ZonePolicy:
+    code: False
+    tx_id: 1
+    rx_id: 3
+    description: Traffic from Z00 to Z02
+  - ZonePolicy:
+    code: False
+    tx_id: 1
+    rx_id: 4
+    description: Traffic from Z00 to Z03
+  - ZonePolicy:
+    code: False
+    tx_id: 1
+    rx_id: 5
+    description: Traffic from Z00 to Z04
+  - ZonePolicy:
+    code: False
+    tx_id: 1
+    rx_id: 6
+    description: Traffic from Z00 to Z41
+  - ZonePolicy:
+    code: False
+    tx_id: 1
+    rx_id: 7
+    description: Traffic from Z00 to Z05
+  - ZonePolicy:
+    code: False
+    tx_id: 1
+    rx_id: 8
+    description: Traffic from Z00 to Z06
+  - ZonePolicy:
+    code: False
+    tx_id: 1
+    rx_id: 9
+    description: Traffic from Z00 to Z07
+  - ZonePolicy:
+    code: False
+    tx_id: 1
+    rx_id: 10
+    description: Traffic from Z00 to Z08
+  - ZonePolicy:
+    code: True
+    tx_id: 2
+    rx_id: 1
+    description: Traffic from Z01 to Z00
+  - ZonePolicy:
+    code: True
+    tx_id: 2
+    rx_id: 3
+    description: Traffic from Z01 to Z02
+  - ZonePolicy:
+    code: True
+    tx_id: 2
+    rx_id: 4
+    description: Traffic from Z01 to Z03
+  - ZonePolicy:
+    code: False
+    tx_id: 2
+    rx_id: 5
+    description: Traffic from Z01 to Z04
+  - ZonePolicy:
+    code: False
+    tx_id: 2
+    rx_id: 6
+    description: Traffic from Z01 to Z41
+  - ZonePolicy:
+    code: False
+    tx_id: 2
+    rx_id: 7
+    description: Traffic from Z01 to Z05
+  - ZonePolicy:
+    code: False
+    tx_id: 2
+    rx_id: 8
+    description: Traffic from Z01 to Z06
+  - ZonePolicy:
+    code: False
+    tx_id: 2
+    rx_id: 9
+    description: Traffic from Z01 to Z07
+  - ZonePolicy:
+    code: False
+    tx_id: 2
+    rx_id: 10
+    description: Traffic from Z01 to Z08
+  - ZonePolicy:
+    code: True
+    tx_id: 3
+    rx_id: 1
+    description: Traffic from Z02 to Z00
+  - ZonePolicy:
+    code: True
+    tx_id: 3
+    rx_id: 2
+    description: Traffic from Z02 to Z01
+  - ZonePolicy:
+    code: True
+    tx_id: 3
+    rx_id: 4
+    description: Traffic from Z02 to Z03
+  - ZonePolicy:
+    code: False
+    tx_id: 3
+    rx_id: 5
+    description: Traffic from Z02 to Z04
+  - ZonePolicy:
+    code: False
+    tx_id: 3
+    rx_id: 6
+    description: Traffic from Z02 to Z41
+  - ZonePolicy:
+    code: False
+    tx_id: 3
+    rx_id: 7
+    description: Traffic from Z02 to Z05
+  - ZonePolicy:
+    code: False
+    tx_id: 3
+    rx_id: 8
+    description: Traffic from Z02 to Z06
+  - ZonePolicy:
+    code: False
+    tx_id: 3
+    rx_id: 9
+    description: Traffic from Z02 to Z07
+  - ZonePolicy:
+    code: False
+    tx_id: 3
+    rx_id: 10
+    description: Traffic from Z02 to Z08
+  - ZonePolicy:
+    code: True
+    tx_id: 4
+    rx_id: 1
+    description: Traffic from Z03 to Z00
+  - ZonePolicy:
+    code: True
+    tx_id: 4
+    rx_id: 2
+    description: Traffic from Z03 to Z01
+  - ZonePolicy:
+    code: True
+    tx_id: 4
+    rx_id: 3
+    description: Traffic from Z03 to Z02
+  - ZonePolicy:
+    code: False
+    tx_id: 4
+    rx_id: 5
+    description: Traffic from Z03 to Z04
+  - ZonePolicy:
+    code: False
+    tx_id: 4
+    rx_id: 6
+    description: Traffic from Z03 to Z41
+  - ZonePolicy:
+    code: False
+    tx_id: 4
+    rx_id: 7
+    description: Traffic from Z03 to Z05
+  - ZonePolicy:
+    code: False
+    tx_id: 4
+    rx_id: 8
+    description: Traffic from Z03 to Z06
+  - ZonePolicy:
+    code: False
+    tx_id: 4
+    rx_id: 9
+    description: Traffic from Z03 to Z07
+  - ZonePolicy:
+    code: False
+    tx_id: 4
+    rx_id: 10
+    description: Traffic from Z03 to Z08
+  - ZonePolicy:
+    code: True
+    tx_id: 5
+    rx_id: 1
+    description: Traffic from Z04 to Z00
+  - ZonePolicy:
+    code: True
+    tx_id: 5
+    rx_id: 2
+    description: Traffic from Z04 to Z01
+  - ZonePolicy:
+    code: True
+    tx_id: 5
+    rx_id: 3
+    description: Traffic from Z04 to Z02
+  - ZonePolicy:
+    code: False
+    tx_id: 5
+    rx_id: 4
+    description: Traffic from Z04 to Z03
+  - ZonePolicy:
+    code: False
+    tx_id: 5
+    rx_id: 6
+    description: Traffic from Z04 to Z41
+  - ZonePolicy:
+    code: False
+    tx_id: 5
+    rx_id: 7
+    description: Traffic from Z04 to Z05
+  - ZonePolicy:
+    code: False
+    tx_id: 5
+    rx_id: 8
+    description: Traffic from Z04 to Z06
+  - ZonePolicy:
+    code: False
+    tx_id: 5
+    rx_id: 9
+    description: Traffic from Z04 to Z07
+  - ZonePolicy:
+    code: False
+    tx_id: 5
+    rx_id: 10
+    description: Traffic from Z04 to Z08
+  - ZonePolicy:
+    code: True
+    tx_id: 6
+    rx_id: 1
+    description: Traffic from Z41 to Z00
+  - ZonePolicy:
+    code: True
+    tx_id: 6
+    rx_id: 2
+    description: Traffic from Z41 to Z01
+  - ZonePolicy:
+    code: True
+    tx_id: 6
+    rx_id: 3
+    description: Traffic from Z41 to Z02
+  - ZonePolicy:
+    code: False
+    tx_id: 6
+    rx_id: 4
+    description: Traffic from Z41 to Z03
+  - ZonePolicy:
+    code: False
+    tx_id: 6
+    rx_id: 5
+    description: Traffic from Z41 to Z04
+  - ZonePolicy:
+    code: False
+    tx_id: 6
+    rx_id: 7
+    description: Traffic from Z41 to Z05
+  - ZonePolicy:
+    code: False
+    tx_id: 6
+    rx_id: 8
+    description: Traffic from Z41 to Z06
+  - ZonePolicy:
+    code: False
+    tx_id: 6
+    rx_id: 9
+    description: Traffic from Z41 to Z07
+  - ZonePolicy:
+    code: False
+    tx_id: 6
+    rx_id: 10
+    description: Traffic from Z41 to Z08
+  - ZonePolicy:
+    code: True
+    tx_id: 7
+    rx_id: 1
+    description: Traffic from Z05 to Z00
+  - ZonePolicy:
+    code: True
+    tx_id: 7
+    rx_id: 2
+    description: Traffic from Z05 to Z01
+  - ZonePolicy:
+    code: True
+    tx_id: 7
+    rx_id: 3
+    description: Traffic from Z05 to Z02
+  - ZonePolicy:
+    code: False
+    tx_id: 7
+    rx_id: 4
+    description: Traffic from Z05 to Z03
+  - ZonePolicy:
+    code: False
+    tx_id: 7
+    rx_id: 5
+    description: Traffic from Z05 to Z04
+  - ZonePolicy:
+    code: False
+    tx_id: 7
+    rx_id: 6
+    description: Traffic from Z05 to Z41
+  - ZonePolicy:
+    code: False
+    tx_id: 7
+    rx_id: 8
+    description: Traffic from Z05 to Z06
+  - ZonePolicy:
+    code: False
+    tx_id: 7
+    rx_id: 9
+    description: Traffic from Z05 to Z07
+  - ZonePolicy:
+    code: False
+    tx_id: 7
+    rx_id: 10
+    description: Traffic from Z05 to Z08
+  - ZonePolicy:
+    code: True
+    tx_id: 8
+    rx_id: 1
+    description: Traffic from Z06 to Z00
+  - ZonePolicy:
+    code: True
+    tx_id: 8
+    rx_id: 2
+    description: Traffic from Z06 to Z01
+  - ZonePolicy:
+    code: True
+    tx_id: 8
+    rx_id: 3
+    description: Traffic from Z06 to Z02
+  - ZonePolicy:
+    code: False
+    tx_id: 8
+    rx_id: 4
+    description: Traffic from Z06 to Z03
+  - ZonePolicy:
+    code: False
+    tx_id: 8
+    rx_id: 5
+    description: Traffic from Z06 to Z04
+  - ZonePolicy:
+    code: False
+    tx_id: 8
+    rx_id: 6
+    description: Traffic from Z06 to Z41
+  - ZonePolicy:
+    code: False
+    tx_id: 8
+    rx_id: 7
+    description: Traffic from Z06 to Z05
+  - ZonePolicy:
+    code: False
+    tx_id: 8
+    rx_id: 9
+    description: Traffic from Z06 to Z07
+  - ZonePolicy:
+    code: False
+    tx_id: 8
+    rx_id: 10
+    description: Traffic from Z06 to Z08
+  - ZonePolicy:
+    code: True
+    tx_id: 9
+    rx_id: 1
+    description: Traffic from Z07 to Z00
+  - ZonePolicy:
+    code: True
+    tx_id: 9
+    rx_id: 2
+    description: Traffic from Z07 to Z01
+  - ZonePolicy:
+    code: True
+    tx_id: 9
+    rx_id: 3
+    description: Traffic from Z07 to Z02
+  - ZonePolicy:
+    code: False
+    tx_id: 9
+    rx_id: 4
+    description: Traffic from Z07 to Z03
+  - ZonePolicy:
+    code: False
+    tx_id: 9
+    rx_id: 5
+    description: Traffic from Z07 to Z04
+  - ZonePolicy:
+    code: False
+    tx_id: 9
+    rx_id: 6
+    description: Traffic from Z07 to Z41
+  - ZonePolicy:
+    code: False
+    tx_id: 9
+    rx_id: 7
+    description: Traffic from Z07 to Z05
+  - ZonePolicy:
+    code: False
+    tx_id: 9
+    rx_id: 8
+    description: Traffic from Z07 to Z06
+  - ZonePolicy:
+    code: False
+    tx_id: 9
+    rx_id: 10
+    description: Traffic from Z07 to Z08
+  - ZonePolicy:
+    code: True
+    tx_id: 10
+    rx_id: 1
+    description: Traffic from Z08 to Z00
+  - ZonePolicy:
+    code: True
+    tx_id: 10
+    rx_id: 2
+    description: Traffic from Z08 to Z01
+  - ZonePolicy:
+    code: True
+    tx_id: 10
+    rx_id: 3
+    description: Traffic from Z08 to Z02
+  - ZonePolicy:
+    code: False
+    tx_id: 10
+    rx_id: 4
+    description: Traffic from Z08 to Z03
+  - ZonePolicy:
+    code: False
+    tx_id: 10
+    rx_id: 5
+    description: Traffic from Z08 to Z04
+  - ZonePolicy:
+    code: False
+    tx_id: 10
+    rx_id: 6
+    description: Traffic from Z08 to Z41
+  - ZonePolicy:
+    code: False
+    tx_id: 10
+    rx_id: 7
+    description: Traffic from Z08 to Z05
+  - ZonePolicy:
+    code: False
+    tx_id: 10
+    rx_id: 8
+    description: Traffic from Z08 to Z06
+  - ZonePolicy:
+    code: False
+    tx_id: 10
+    rx_id: 9
+    description: Traffic from Z08 to Z07
+  - ZonePolicy:
+    code: True
+    tx_id: 1
+    rx_id: 1
+    description: External Z00
+  - ZonePolicy:
+    code: True
+    tx_id: 2
+    rx_id: 2
+    description: Internal Z01
+  - ZonePolicy:
+    code: True
+    tx_id: 3
+    rx_id: 3
+    description: Internal Z02
+  - ZonePolicy:
+    code: True
+    tx_id: 4
+    rx_id: 4
+    description: Internal Z03
+  - ZonePolicy:
+    code: True
+    tx_id: 5
+    rx_id: 5
+    description: Internal Z04
+  - ZonePolicy:
+    code: True
+    tx_id: 6
+    rx_id: 6
+    description: Internal Z41
+  - ZonePolicy:
+    code: True
+    tx_id: 7
+    rx_id: 7
+    description: Internal Z05
+  - ZonePolicy:
+    code: True
+    tx_id: 8
+    rx_id: 8
+    description: Internal Z06
+  - ZonePolicy:
+    code: True
+    tx_id: 9
+    rx_id: 9
+    description: Internal Z07
+  - ZonePolicy:
+    code: True
+    tx_id: 10
+    rx_id: 10
+    description: Internal Z08
+  - Tenant:
+    name: VRF1
+    name_long: PCI DSS Network
+    env_id: 1
+  - Tenant:
+    name: VRF2
+    name_long: non PCI DSS Network
+    env_id: 1
+  - Tenant:
+    name: VRF3
+    name_long: Customer facing Network
+    env_id: 1
+  - Tenant:
+    name: INTL
+    name_long: SD-WAN
+    env_id: 2
+  - Tenant:
+    name: ES01
+    name_long: Spain
+    env_id: 2
+  - Tenant:
+    name: PL01
+    name_long: Poland
+    env_id: 2
+  - Tenant:
+    name: UK01
+    name_long: United Kingdom
+    env_id: 2
+  - Tenant:
+    name: TEN1
+    name_long: Production
+    env_id: 3
+  - Tenant:
+    name: TEN2
+    name_long: Pre-production
+    env_id: 3
+  - Tenant:
+    name: TEN3
+    name_long: Development
+    env_id: 3
+  - Network:
+    name: GLOBAL
+    subnet: 10.12.0.0/16
+    tenant_id: 1
+  - Network:
+    name: DC01
+    subnet: 10.12.128.0/22
+    tenant_id: 1
+  - Network:
+    name: DC02
+    subnet: 10.12.192.0/22
+    tenant_id: 1
+  - Network:
+    name: DR
+    subnet: 10.12.255.0/24
+    tenant_id: 1
+  - Network:
+    name: GLOBAL
+    subnet: 10.14.0.0/16
+    tenant_id: 2
+  - Network:
+    name: DC01
+    subnet: 10.14.128.0/22
+    tenant_id: 2
+  - Network:
+    name: DC02
+    subnet: 10.14.192.0/22
+    tenant_id: 2
+  - Network:
+    name: GLOBAL
+    subnet: 10.16.0.0/16
+    tenant_id: 3
+  - Network:
+    name: DC01
+    subnet: 10.16.128.0/22
+    tenant_id: 3
+  - Network:
+    name: DC02
+    subnet: 10.16.192.0/22
+    tenant_id: 3
+  - Network:
+    name: SITES
+    subnet: 10.4.0.0/16
+    tenant_id: 4
+  - Network:
+    name: DC01
+    subnet: 10.14.0.0/25
+    tenant_id: 4
+  - Network:
+    name: DC02
+    subnet: 10.14.128.0/25
+    tenant_id: 4
+  - Network:
+    name: DR
+    subnet: 10.40.128.0/25
+    tenant_id: 4
+  - Network:
+    name: DC01
+    subnet: 10.12.0.0/20
+    tenant_id: 5
+  - Network:
+    name: DC02
+    subnet: 10.12.128.0/25
+    tenant_id: 5
+  - Network:
+    name: DR
+    subnet: 10.12.128.0/25
+    tenant_id: 5
+  - Network:
+    name: DC01
+    subnet: 10.22.0.0/20
+    tenant_id: 6
+  - Network:
+    name: DC02
+    subnet: 10.22.128.0/25
+    tenant_id: 6
+  - Network:
+    name: DR
+    subnet: 10.22.128.0/25
+    tenant_id: 6
+  - Network:
+    name: DC01
+    subnet: 10.32.0.0/20
+    tenant_id: 7
+  - Network:
+    name: DC02
+    subnet: 10.32.128.0/25
+    tenant_id: 7
+  - Network:
+    name: DR
+    subnet: 10.32.128.0/25
+    tenant_id: 7
+  - Network:
+    name: DC01
+    subnet: 10.42.0.0/20
+    tenant_id: 8
+  - Network:
+    name: DC02
+    subnet: 10.42.128.0/25
+    tenant_id: 8
+  - Network:
+    name: DR
+    subnet: 10.42.128.0/25
+    tenant_id: 8
+  - Network:
+    name: DC01
+    subnet: 10.42.0.0/20
+    tenant_id: 9
+  - Network:
+    name: DC02
+    subnet: 10.42.128.0/25
+    tenant_id: 9
+  - Network:
+    name: DR
+    subnet: 10.42.128.0/25
+    tenant_id: 9
+  - Network:
+    name: DC01
+    subnet: 10.42.0.0/20
+    tenant_id: 10
+  - Network:
+    name: DC02
+    subnet: 10.42.128.0/25
+    tenant_id: 10
+  - Network:
+    name: DR
+    subnet: 10.42.128.0/25
+    tenant_id: 10
+  - Contact:
+    name: Maria
+    surname: Estanca 
+    email: maria.estanca@acme.nl
+    tenant_id: 1
+  - Contact:
+    name: Maria
+    surname: Estanca
+    email: maria.estanca@acme.nl
+    tenant_id: 2
+  - Contact:
+    name: Marc
+    surname: Pota
+    email: marc.pota@acme.nl
+    tenant_id: 2
+  - Contact:
+    name: Marc
+    surname: Pota
+    email: marc.pota@acme.nl
+    tenant_id: 3
+  - Contact:
+    name: Pere
+    surname: Samfaina
+    email: pere.samfaina@acme.nl
+    tenant_id: 1
+  - Contact:
+    name: Pere
+    surname: Samfaina
+    email: pere.samfaina@acme.nl
+    tenant_id: 2
+  - Contact:
+    name: Pere
+    surname: Samfaina
+    email: pere.samfaina@acme.nl
+    tenant_id: 3
+  - Contact:
+    name: Carla
+    surname: Pota
+    email: carla.pota@acme.nl
+    tenant_id: 1
+  - Contact:
+    name: Carla
+    surname: Pota
+    email: carla.pota@acme.nl
+    tenant_id: 3
+  - Contact:
+    name: Baldomar
+    surname: Escudella
+    email: baldomar.escudella@boom.es
+    tenant_id: 4
+  - Contact:
+    name: Baldomar
+    surname: Escudella
+    email: baldomar.escudella@boom.es
+    tenant_id: 5
+  - Contact:
+    name: Baldomar
+    surname: Escudella
+    email: baldomar.escudella@boom.es
+    tenant_id: 6
+  - Contact:
+    name: Anna
+    surname: Solsona
+    email: anna.solsona@boom.es
+    tenant_id: 4
+  - Contact:
+    name: Anna
+    surname: Solsona
+    email: anna.solsona@boom.es
+    tenant_id: 5
+  - Contact:
+    name: Anna
+    surname: Solsona
+    email: anna.solsona@boom.es
+    tenant_id: 6
+  - Contact:
+    name: Anna
+    surname: Solsona
+    email: anna.solsona@boom.es
+    tenant_id: 7
+  - Contact:
+    name: Joan
+    surname: Aromes
+    email: joan.aromes@boom.es
+    tenant_id: 4
+  - Contact:
+    name: Agusti
+    surname: Picapoll
+    email: agusti.picapoll@boom.es
+    tenant_id: 5
+  - Contact:
+    name: Margarita
+    surname: Suro
+    email: margarita.suro@boom.es
+    tenant_id: 6
+  - Contact:
+    name: Pere
+    surname: Mola
+    email: pere.mola@boom.es
+    tenant_id: 7
+  - Contact:
+    name: David
+    surname: Ive
+    email: david.ive@biblio.uk
+    tenant_id: 8
+  - Contact:
+    name: David
+    surname: Ive
+    email: david.ive@biblio.uk
+    tenant_id: 9
+  - Contact:
+    name: Helen
+    surname: Balaguer
+    email: helen.balaguer@biblio.uk
+    tenant_id: 8
+  - Contact:
+    name: Helen
+    surname: Balaguer
+    email: helen.balaguer@biblio.uk
+    tenant_id: 9
+  - Contact:
+    name: Tim
+    surname: Buc
+    email: tim.buc@biblio.uk
+    tenant_id: 8
+  - Contact:
+    name: Vic
+    surname: Tremola
+    email: vic.tremola@biblio.uk
+    tenant_id: 9
+  - Contact:
+    name: Mercadal
+    surname: Pica
+    email: mercadal.pica@biblio.uk
+    tenant_id: 10
+  - Contact:
+    name: Ferran
+    surname: Espera
+    email: f.espera@biblio.uk
+    tenant_id: 10
+  - Contact:
+    name: Marta
+    surname: Espera
+    email: m.espera@biblio.uk
+    tenant_id: 10

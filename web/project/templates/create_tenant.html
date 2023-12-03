@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Tenant{% endblock %}
+
+{% block content%}
+<div class="row">
+    <div class="col-sm-6">
+        <p>
+            <h5>Add Tenant</h5>
+        </p>
+    </div>
+</div>
+<form method="POST">
+    <div class="row mb-3">
+        <div class="col-sm-3">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Name for the Tenant">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+            <input type="text" class="form-control" id="name_long" name="name_long" placeholder="Long name for the Tenant">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+            <select type="int" id="env" name="env" class="form-select" aria-label="Environemnt">
+                <option selected>Select Environment</option>
+                {% for env in envs %}
+                    <option value={{env.id}}>{{env.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">
+        Create
+    </button>
+    <a class="btn btn-outline-danger" href="{{ url_for('home')}}" role="button">
+        Cancel
+    </a>
+</form>
+{% endblock %}

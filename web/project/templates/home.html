@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content%}
+<div class="row">
+    <div class="col-sm-6">
+        <p>
+            <h4>Tenants</h4>
+            <a href="{{ url_for('create') }}"><button type="button" class="btn btn-success">create</button></a>
+        </p>
+        <div class="accordion accordion-flush"
+            id="accordionFlushTenants">
+            {% for zone in tenants %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading{{ zone.name }}">
+                        <button class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapse{{ zone.name }}"
+                            aria-expanded="true"
+                            aria-controls="collapse{{ zone.name }}">
+                            {{ zone.name }}
+                        </button>
+                    </h2>
+                    <div id="collapse{{ zone.name }}"
+                        class="accordion-collapse collapse collapse"
+                        aria-labelledby="heading{{ zone.name }}"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <table class="table">
+                                <tbody>
+                                    <tr><td><strong>{{ zone.name_long }}</strong></td><td></td></tr>
+                                    <tr><td>users</td><td>{{ zone.users | length }}</td></tr>
+                                    <tr><td>networks</td><td>{{ zone.networks | length }}</td></tr>
+                                </tbody>
+                            </table>
+                            <a class="btn btn-success" href="{{ url_for('tenant', id=zone.id) }}" role="button">View</a>
+                            <a class="btn btn-outline-danger" href="{{ url_for('remove_tenant', id=zone.id) }}" role="button">Remove</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

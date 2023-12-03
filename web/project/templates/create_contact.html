@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Contact{% endblock %}
+
+{% block content%}
+<div class="row">
+    <div class="col-sm-6">
+        <p>
+            <h5>Add Contact</h5>
+        </p>
+    </div>
+</div>
+<form method="POST">
+    <div class="row mb-3">
+        <div class="col-sm-3">
+            <input type="text" class="form-control" id="name" name="name" placeholder="name for the contact">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+            <input type="text" class="form-control" id="surname" name="surname" placeholder="surname for the contact (optional)">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+            <input type="email" class="form-control" id="email" name="email" placeholder="e-mail for the contact">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+            Select tenants from {{ environment.name }}:
+            <select type="int" id="tenants" name="tenants" class="form-select" multiple aria-label="size {{ environment.tenants | length }} Tenants">
+                {% for tenant in environment.tenants %}
+                    <option value={{tenant.id}}>{{tenant.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">
+        Create
+    </button>
+    <a class="btn btn-outline-danger" href="{{ url_for('tenant', id=id_tenant ) }}" role="button">
+        Cancel
+    </a>
+</form>
+{% endblock %}

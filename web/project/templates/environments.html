@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}Environments{% endblock %}
+
+{% block content%}
+<div class="row">
+    <div class="col-sm-6">
+        <p>
+            <h4>Environments</h4>
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">FMG</th>
+              <th scope="col">FAZ</th>
+              <th scope="col">Key Azure</th>
+              <th scope="col">Key Network</th>
+              <th scope="col">View</th>
+              <th scope="col">Operations</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for env in envs %}
+          <tr>
+            <td>{{env.name }}</td>
+            <td>{{env.fmg_name}}</td>
+            <td>{{env.faz_name}}</td>
+            <td>{{env.az_keyvault}}</td>
+            <td>{{env.fmg_keyvault}}</td>
+            <td>
+              <a class="btn btn-outline-primary btn-sm" role="button" href="{{ url_for('details_zone', id=env.id) }}">details</a>
+            </td>
+            <td>
+              <a class="btn btn-outline-danger btn-sm" role="button" href="{{ url_for('remove_env', id=env.id) }}">delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td><a class="btn btn-outline-secondary btn-sm" href="{{ url_for('home') }}" role="button">Back</a></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <a class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{{ url_for('environments') }}" role="button">create</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Create new Environment Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Create new Environment</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="form" method="post" role="form">
+          {{ form.csrf_token }}
+            {{ form.name.label }}
+            {{ form.name(size=24, class_="form-control") }}
+                {% if form.name.errors %}
+                <ul class="errors">
+                    {% for error in form.name.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            <br>{{ form.fmg_name.label }}
+            {{ form.fmg_name(size=16, class_="form-control") }}
+                {% if form.fmg_name.errors %}
+                <ul class="errors">
+                    {% for error in form.fmg_name.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            <br>{{ form.faz_name.label }}
+            {{ form.faz_name(size=16, class_="form-control") }}
+                {% if form.faz_name.errors %}
+                <ul class="errors">
+                    {% for error in form.faz_name.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            <br>{{ form.az_keyvault.label }}
+            {{ form.az_keyvault(size=16, class_="form-control") }}
+                {% if form.az_keyvault.errors %}
+                <ul class="errors">
+                    {% for error in form.az_keyvault.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            <br>{{ form.fmg_keyvault.label }}
+            {{ form.fmg_keyvault(size=16, class_="form-control") }}
+                {% if form.fmg_keyvault.errors %}
+                <ul class="errors">
+                    {% for error in form.fmg_keyvault.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+              <p>
+                <br><button type="submit" class="btn btn-success">Create</button>
+                <a class="btn btn-outline-danger" href="{{ url_for('environments')}}" role="button">Cancel</a>
+              </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

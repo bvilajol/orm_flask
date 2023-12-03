@@ -1,0 +1,61 @@
+---
+objects:
+  - TenantFqdnObject:
+    zone_id: 1
+    tenant_id: 1
+    code: ACME
+    fqdn: www.acme.com
+    description: Corporate on external SaaS
+    color: 2
+  - TenantFqdnObject:
+    zone_id: 1
+    code: MSABURE
+    fqdn: saas-corp.com
+    description: M$ Aburre Cloud Provider
+    color: 2
+  - TenantFqdnObject:
+    zone_id: 1
+    tenant_id: 1
+    code: PEPE
+    fqdn: www.pepe.com
+    description: Corporate of Pepe
+    color: 2
+  - TenantFqdnObject:
+    zone_id: 1
+    code: AGUAZONE
+    fqdn: aws-corp.com
+    description: Azwazone Aburre Cloud Provider
+    color: 2
+  - TenantNetworkObject:
+    zone_id: 6
+    tenant_id: 1
+    code: MGMT
+    subnet: 10.12.24.0/24
+    description: Management Network
+    color: 3
+  - TenantNetworkObject:
+    zone_id: 6
+    code: MSABURE
+    subnet: 41.0.0.0/8
+    description: Cloud Provider
+    color: 2
+  - TenantNetworkObject:
+    zone_id: 6
+    tenant_id: 1
+    code: VIDEO
+    subnet: 10.12.26.0/24
+    description: Management Network
+    color: 3
+  - TenantNetworkObject:
+    zone_id: 6
+    code: AGUAZONE
+    subnet: 1961.11.0.0/16
+    description: Cloud Provider
+    color: 2
+  - TenantFqdnObject:
+    zone_id: 1
+    tenant_id: 2
+    code: TIME
+    fqdn: www.time.com
+    description: Time Provider
+    color: 2

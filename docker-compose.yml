@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile.prod
+    command: gunicorn --bind 0.0.0.0:5000 manage:app
+    volumes:
+      - static:/home/app/web/project/static
+    expose:
+      - 5000
+    env_file:
+      - ./web.prod.env
+    depends_on:
+      - db
+  db:
+    container_name: orm_db
+    image: postgres:13
+    volumes:
+      - db:/var/lib/postgresql/data/
+    env_file:
+      - ./db.dev.env
+    ports:
+      - "5432:5432"
+  nginx:
+    build: ./nginx
+    volumes:
+      - static:/home/app/web/project/static 
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+
+volumes:
+  db:
+  static:

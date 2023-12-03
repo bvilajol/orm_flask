@@ -1,0 +1,584 @@
+openapi: 3.0.0
+info:
+  title: "Network Automation REST API"
+  description: "API for network automation operation and delivery"
+  version: "1.0.0"
+
+servers:
+  - url: "/api"
+
+components:
+  schemas:
+    Tenant:
+      type: "object"
+      required:
+        - name
+        - name_long
+        - env
+      properties:
+        name:
+          type: "string"
+        name_long:
+          type: "string"
+        env:
+          type: "integer"
+    Contact:
+      type: "object"
+      required:
+        - name
+        - surname
+        - email
+        - tenant
+      properties:
+        name:
+          type: "string"
+        surname:
+          type: "string"
+        email:
+          type: "string"
+        tenant:
+          type: "integer"
+    Environment:
+      type: "object"
+      required:
+        - name
+        - fmg_name
+        - faz_name
+        - az_keyvault
+        - fmg_keyvault
+      properties:
+        name:
+          type: "string"
+        fmg_name:
+          type: "string"
+        faz_name:
+          type: "string"
+        az_keyvault:
+          type: "string"
+        fmg_keyvault:
+          type: "string"
+    Network:
+      type: "object"
+      required:
+        - name
+        - network
+        - az_keyvault
+        - fmg_keyvault
+        - tenant
+      properties:
+        name:
+          type: "string"
+        network:
+          type: "string"
+        tenant:
+          type: "integer"
+  parameters:
+    name:
+      name: "name"
+      description: "Name, or unique 4 digit name for Tenant"
+      in: path
+      required: True
+      schema:
+        type: "string"
+    id:
+      name: "id"
+      description: "ID for the object"
+      in: path
+      required: true
+      schema:
+        type: "integer"
+    surname:
+      name: "surname"
+      description: "Surname for the contact"
+      in: path
+      required: True
+      schema:
+        type: "string"
+    name_long:
+      name: "name_long"
+      description: "Name for the tenant"
+      in: path
+      required: True
+      schema:
+        type: "string"
+    email:
+      name: "email"
+      description: "Email for the contact"
+      in: path
+      required: True
+      schema:
+        type: "string"
+    tenant:
+      name: "tenant"
+      description: "ID for the tenant associated with the contact"
+      in: path
+      required: true
+      schema:
+        type: "integer"
+    contact:
+      name: "contact"
+      description: "ID for the contact associated with the contact"
+      in: path
+      required: true
+      schema:
+        type: "integer"
+    env:
+      name: "environment"
+      description: "id for the Environment associated with the Tenant"
+      in: path
+      required: true
+      schema:
+        type: integer
+    fmg_name:
+      name: "fmg_name"
+      description: "List with name / IP for the fmg servers"
+      in: path
+      required: true
+      schema:
+        type: string
+    faz_name:
+      name: "faz_name"
+      description: "List with name / IP for the faz servers"
+      in: path
+      required: true
+      schema:
+        type: string
+    az_keyvault:
+      name: "az_keyvault"
+      description: "Name for the Azure keyvault containing secrets"
+      in: path
+      required: true
+      schema:
+        type: string
+    fmg_keyvault:
+      name: "fmg_keyvault"
+      description: "Name for the Azure keyvault containing secrets"
+      in: path
+      required: true
+      schema:
+        type: string
+    network:
+      name: "network"
+      description: "Network range"
+      in: path
+      required: true
+      schema:
+        type: string
+
+paths:
+  /tenant:
+    get:
+      operationId: "project.api.tenant.read_all"
+      tags:
+        - "Tenant"
+      summary: "Reads all Tenant objects"
+      responses:
+        "200":
+          description: "Successfully read tenants"
+    post:
+      operationId: "project.api.tenant.create"
+      tags:
+        - "Tenant"
+      summary: "Creates a Tenant object"
+      requestBody:
+          description: "Tenant to create"
+          required: True
+          content:
+            application/json:
+              schema:
+                x-body-name: "tenant"
+                $ref: "#/components/schemas/Tenant"
+      responses:
+        "201":
+          description: "Successfully created tenant"
+        "406":
+          description: "Tenant already exists"
+
+  /tenant/name/list:
+    get:
+      operationId: "project.api.tenant.list_name"
+      tags:
+        - "Tenant"
+      summary: "Lists Tenant names for all Environments"
+      responses:
+        "200":
+          description: "Successfully read tenants"
+
+  /tenant/name/{name}:
+    get:
+      operationId: "project.api.tenant.read_name"
+      tags:
+        - "Tenant"
+      summary: "Reads one Tenant object"
+      parameters:
+        - $ref: "#/components/parameters/name"
+      responses:
+        "200":
+          description: "Successfully read tenant"
+        "404":
+          description: "Tenant not found"
+
+    delete:
+      tags:
+        - Tenant
+      operationId: "project.api.tenant.delete_name"
+      summary: "Deletes a Tenant object and Contacts within"
+      parameters:
+        - $ref: "#/components/parameters/name"
+      responses:
+        "202":
+          description: "Successfully deleted tenant"
+        "404":
+          description: "Tenant not found"
+
+  /tenant/id/{id}:
+    get:
+      operationId: "project.api.tenant.read"
+      tags:
+        - "Tenant"
+      summary: "Reads one Tenant object"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Successfully read tenant"
+        "404":
+          description: "Tenant not found"
+
+    delete:
+      tags:
+        - Tenant
+      operationId: "project.api.tenant.delete"
+      summary: "Deletes a Tenant object and Contacts within"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "202":
+          description: "Successfully deleted tenant"
+        "404":
+          description: "Tenant not found"
+
+  /contact:
+    get:
+      operationId: "project.api.contact.read_all"
+      tags:
+        - "Contact"
+      summary: "Reads all Contacts"
+      responses:
+        "200":
+          description: "Successfully read contacts"
+    post:
+      operationId: "project.api.contact.create"
+      tags:
+        - "Contact"
+      summary: "Creates a Contact"
+      requestBody:
+          description: "Contact to create"
+          required: True
+          content:
+            application/json:
+              schema:
+                x-body-name: "contact"
+                $ref: "#/components/schemas/Contact"
+      responses:
+        "201":
+          description: "Successfully created contact"
+        "406":
+          description: "Contact already exists"
+
+  /contact/environment/{id}/list/email:
+    get:
+      operationId: "project.api.contact.list_env_email"
+      tags:
+        - "Contact"
+      summary: "Lists Contacts from an Environment"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Successfully read contacts"
+
+  /contact/environment/{id}/list:
+    get:
+      operationId: "project.api.contact.list_env"
+      tags:
+        - "Contact"
+      summary: "Lists Contacts from an Environment"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Successfully read contacts"
+
+  /contact/environment/{id}:
+    get:
+      operationId: "project.api.contact.read_env"
+      tags:
+        - "Contact"
+      summary: "Reads Contacts from an Environment"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Successfully read contacts"
+
+  /contact/{email}/tenants:
+    get:
+      operationId: "project.api.contact.read_email"
+      tags:
+        - "Contact"
+      summary: "Reads a Contact at all Tenants"
+      parameters:
+        - $ref: "#/components/parameters/email"
+      responses:
+        "200":
+          description: "Successfully read contact"
+        "404":
+          description: "Contact not found"
+
+    delete:
+      tags:
+        - Contact
+      operationId: "project.api.contact.delete_email"
+      summary: "Deletes a Contact from all Tenants"
+      parameters:
+        - $ref: "#/components/parameters/email"
+      responses:
+        "202":
+          description: "Successfully deleted contact"
+        "404":
+          description: "Contact not found"
+
+  /contact/{email}/tenants/list:
+    get:
+      operationId: "project.api.contact.list_tenant_email"
+      tags:
+        - "Contact"
+      summary: "Lists Tenants for one Contact"
+      parameters:
+        - $ref: "#/components/parameters/email"
+      responses:
+        "200":
+          description: "Successfully read contact"
+        "404":
+          description: "Contact not found"
+
+  /contact/{id}:
+    get:
+      operationId: "project.api.contact.read"
+      tags:
+        - "Contact"
+      summary: "Reads one Contact"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Successfully read contact"
+        "404":
+          description: "Contact not found on this id"
+
+    delete:
+      tags:
+        - Contact
+      operationId: "project.api.contact.delete"
+      summary: "Deletes one Contact"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "202":
+          description: "Successfully deleted contact"
+        "404":
+          description: "Contact not found"
+
+  /contact/tenant/{id}:
+    get:
+      operationId: "project.api.contact.read_tenant"
+      tags:
+        - "Contact"
+      summary: "Reads Contacts for one Tenant"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Successfully read contacts"
+        "404":
+          description: "Tenant not found"
+
+  /contact/tenant/{id}/list:
+    get:
+      operationId: "project.api.contact.list_tenant"
+      tags:
+        - "Contact"
+      summary: "Lists Contacts for one Tenant"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Successfully read contacts"
+        "404":
+          description: "Tenant not found"
+
+  /environment:
+    get:
+      operationId: "project.api.environment.read_all"
+      tags:
+        - "Environment"
+      summary: "Reads all Environment objects"
+      responses:
+        "200":
+          description: "Successfully read contacts"
+    post:
+      operationId: "project.api.environment.create"
+      tags:
+        - "Environment"
+      summary: "Creates an Environment object"
+      requestBody:
+          description: "Environment to create"
+          required: True
+          content:
+            application/json:
+              schema:
+                x-body-name: "env"
+                $ref: "#/components/schemas/Environment"
+      responses:
+        "201":
+          description: "Successfully created Environment"
+        "406":
+          description: "Environment already exists"
+
+  /environment/id/{id}:
+    get:
+      operationId: "project.api.environment.read"
+      tags:
+        - "Environment"
+      summary: "Reads one Environment object"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Successfully read Environment"
+        "404":
+          description: "Environment not found"
+
+    delete:
+      tags:
+        - "Environment"
+      operationId: "project.api.environment.delete"
+      summary: "Deletes an Environment and Tenants within"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "202":
+          description: "Successfully deleted Environment"
+        "404":
+          description: "Environment not found"
+
+  /environment/name/{name}:
+    get:
+      operationId: "project.api.environment.read_name"
+      tags:
+        - "Environment"
+      summary: "Reads one Environment object"
+      parameters:
+        - $ref: "#/components/parameters/name"
+      responses:
+        "200":
+          description: "Successfully read Environment"
+        "404":
+          description: "Environment not found"
+
+    delete:
+      tags:
+        - "Environment"
+      operationId: "project.api.environment.delete_name"
+      summary: "Deletes an Environment object"
+      parameters:
+        - $ref: "#/components/parameters/name"
+      responses:
+        "202":
+          description: "Successfully deleted Environment"
+        "404":
+          description: "Environment not found"
+
+  /network:
+    get:
+      operationId: "project.api.network.read_all"
+      tags:
+        - "Network"
+      summary: "Reads all Network objects"
+      responses:
+        "200":
+          description: "Successfully read netowork"
+    post:
+      operationId: "project.api.network.create"
+      tags:
+        - "Network"
+      summary: "Creates a Network object"
+      requestBody:
+          description: "Network to create"
+          required: True
+          content:
+            application/json:
+              schema:
+                x-body-name: "network"
+                $ref: "#/components/schemas/Network"
+      responses:
+        "201":
+          description: "Successfully created Network"
+        "406":
+          description: "Network already exists"
+
+  /network/id/{id}:
+    get:
+      operationId: "project.api.network.read"
+      tags:
+        - "Network"
+      summary: "Reads one Network object"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Successfully read Network"
+        "404":
+          description: "Network not found"
+
+    delete:
+      tags:
+        - "Network"
+      operationId: "project.api.network.delete"
+      summary: "Deletes a Network"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "202":
+          description: "Successfully deleted Network"
+        "404":
+          description: "Network not found"
+
+  /network/tenant/{id}:
+    get:
+      operationId: "project.api.network.read_tenant"
+      tags:
+        - "Network"
+      summary: "Reads Networks for one Tenant"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Successfully read networks"
+        "404":
+          description: "Tenant not found"
+
+  /network/tenant/{id}/list:
+    get:
+      operationId: "project.api.network.list_tenant"
+      tags:
+        - "Network"
+      summary: "Lists Networks for one Tenant"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Successfully read networks"
+        "404":
+          description: "Tenant not found"

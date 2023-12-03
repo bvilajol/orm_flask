@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Network{% endblock %}
+
+{% block content%}
+<div class="row">
+    <div class="col-sm-6">
+        <p>
+            <h5>Add Network</h5>
+        </p>
+    </div>
+</div>
+<form class="form" method="post" role="form">
+    {{ form.csrf_token }}
+    <div class="row mb-3">
+        <div class="col-sm-3">
+        {{ form.name.label }}
+        {{ form.name(size=24, class_="form-control") }}
+            {% if form.name.errors %}
+            <ul class="errors">
+                {% for error in form.name.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+        {{ form.code.label }}
+        {{ form.code(size=16, class_="form-control") }}
+            {% if form.code.errors %}
+            <ul class="errors">
+                {% for error in form.code.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+        {{ form.subnet.label }}
+        {{ form.subnet(size=16, class_="form-control") }}
+            {% if form.subnet.errors %}
+            <ul class="errors">
+                {% for error in form.subnet.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+            Select security zone from {{ env.name }}:
+            <select type="int" id="zone_id" name="zone_id" class="form-select" aria-label="size {{ env.zones | length }} Zone">
+                {% for zone in env.zones %}
+                    <option value={{zone.id}}>{{zone.code}} - {{zone.description}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+        <button type="submit" class="btn btn-success">Create</button>
+        <a class="btn btn-outline-danger" href="{{ url_for('tenant', id=id_tenant) }}" role="button">Cancel</a>
+        </div>
+    </div>
+</form>
+{% endblock %}
