@@ -18,24 +18,26 @@ Controller available in the repository. The
 controller is meant for the REST API App.
 Note Controller returns http responses.
 Import Model. """
-from project.model.db import Network
-from project.model.db import Contact
-from project.model.db import Tenant
-from project.model.db import Environment
-from project.model.db import Zone, ZonePolicy
+from project.model.db import (  Network,
+                                Contact,
+                                Tenant,
+                                Environment,
+                                #Zone,
+                                #ZonePolicy,
+                                )
 
 """ Import Schemas """
-from project.model.schemas import (network_schema,
-                                   networks_schema,
-                                   contact_schema,
-                                   contacts_schema,
-                                   tenant_schema,
-                                   tenants_schema,
-                                   environment_schema,
-                                   environments_schema,
-                                   zones_schema,
-                                   zone_policies_schema,
-                                   )
+from project.model.schemas import ( network_schema,
+                                    #networks_schema,
+                                    contact_schema,
+                                    #contacts_schema,
+                                    tenant_schema,
+                                    tenants_schema,
+                                    environment_schema,
+                                    environments_schema,
+                                    #zones_schema,
+                                    #zone_policies_schema,
+                                    )
 
 """ Import config and main instances """
 import project.config
@@ -49,75 +51,107 @@ api.add_api(project.config.basedir / "api/swagger.yml")
 """ Import Forms """
 from project.controller.forms import EnvironmentForm, NetworkForm
 
+@app.route('/api')
+def ui():
+    """ Renders Swagger UI
+        -
+        Returns: api.html
+    """
+    return render_template("api.html")
+
 @app.route('/')
 def home():
+    """ Renders Tenants main view
+        -
+        Returns: environments.html
+    """
     result = Tenant.query.all()
     tenants = tenants_schema.dump(result)
     return render_template("home.html", tenants=tenants)
 
-@app.route('/api')
-def ui():
-    return render_template("api.html")
-
 @app.route('/environments', methods=["GET", "POST"])
 def environments():
-    #envs = Environment.query.all()
-    if request.method == "POST":
-        name = request.form['name']
-        fmg_name = request.form['fmg_name']
-        faz_name = request.form['fmg_name']
-        az_keyvault = request.form['az_keyvault']
-        fmg_keyvault = request.form['fmg_keyvault']
-        env_dict = { "name": name,
-                    "fmg_name": fmg_name,
-                    "faz_name": faz_name,
-                    "az_keyvault": az_keyvault,
-                    "fmg_keyvault": fmg_keyvault}
-        existing = Environment.query.filter(Environment.name == name,
+    """ Renders Environments main view. Methods: GET, POST
+
+        'GET'
+            Read all Environment objects from DB and render them alongside with Form.
+
+        'POST':
+            Validate Environment object is not existing.
+            If Environment exists, redirect to 'GET' method.
+            If Environment does not exists, create it and redirect to 'GET' method.
+        -
+        Returns: environments.html
+    """
+    env_form = EnvironmentForm()
+    if env_form.validate_on_submit(): # Use of WTForms validate method
+        name = request.form['name']                 # Name for the Environment
+        fmg_name = request.form['fmg_name']         # FMG Name for the Environment
+        faz_name = request.form['faz_name']         # FAZ Name for the Environment
+        az_keyvault = request.form['az_keyvault']   # AZ Keyvault for the Environment
+        fmg_keyvault = request.form['fmg_keyvault'] # FMG Keyvault for the Environment
+        # Query the DB
+        env = Environment.query.filter(Environment.name == name,
                                             Environment.fmg_name == fmg_name,
                                             Environment.faz_name == faz_name,
                                             Environment.az_keyvault == az_keyvault,
-                                            Environment.fmg_keyvault == fmg_keyvault).one_or_none()
-        if existing is None:
+                                            Environment.fmg_keyvault == fmg_keyvault).first()
+        # Create Environment into the DB
+        if env is None:
+            # Generate dict to create the Environment
+            env_dict = { "name": name, "fmg_name": fmg_name, "faz_name": faz_name,
+                        "az_keyvault": az_keyvault, "fmg_keyvault": fmg_keyvault }
+            # Generate the Environment instance
             new = environment_schema.load(env_dict, session=db.session)
+            # Add, commit and redirect to 'GET'
             db.session.add(new)
             db.session.commit()
         return redirect(url_for('environments'))
     else:
-        result = Environment.query.all()
-        #envs = environments_schema.dump(result)
-        env_form = EnvironmentForm()
-        return render_template("environments.html", envs=result, form=env_form, env=None)
+        envs = Environment.query.all()
+        return render_template("environments.html", envs=envs, form=env_form)
     return redirect(url_for('home'))
 
-@app.route('/environment/<id>/details', methods=["GET"])
-def details_zone(id):
-    try:
-        result = Environment.query.filter(Environment.id == id).one_or_none()
-        env = environment_schema.dump(result)
-        if env:
-            if request.method == "POST":
-                return redirect(url_for('environments'))
-            else:
-                return render_template("zones.html", env=env)
-        return redirect(url_for('environments'))
-    except IndexError:
-        return redirect(url_for('home'))
+@app.route('/environment/<id>')
+def environment(id):
+    """ Renders Environment details view
+        -
+        Returns: environment.html
+    """
+    result = Environment.query.filter(Environment.id == id).one_or_none()
+    env = environment_schema.dump(result)
+    if env:
+        return render_template("environment.html", env=env)
+    return redirect(url_for('environments'))
 
-@app.route('/environment/remove/<id>', methods=["GET", "POST"])
-def remove_env(id):
-    try:
-        existing = Environment.query.filter(Environment.id == id).one_or_none()
-        if existing:
-            if request.method == "POST":
-                db.session.delete(existing)
-                db.session.commit()
-                return redirect(url_for('environments'))
-            else:
-                return render_template("remove_environment.html", env=existing)
-        return redirect(url_for('environments'))
-    except IndexError:
-        return redirect(url_for('home'))
+@app.route('/environment/<id>/remove', methods=["GET", "POST"])
+def del_environment(id):
+    """ Renders Environment remove confirmation view
+        -
+        Returns: remove_environment.html
+                 redirect to environments if cancel
+    """
+    existing = Environment.query.filter(Environment.id == id).one_or_none()
+    if existing:
+        if request.method == "POST":
+            db.session.delete(existing)
+            db.session.commit()
+            return redirect(url_for('environments'))
+        else:
+            return render_template("remove_environment.html", env=existing)
+    return redirect(url_for('environments'))
+
+@app.route('/tenant/<id>')
+def tenant(id):
+    """ Renders Tenant details view
+        -
+        Returns: tenant.html
+    """
+    existing = Tenant.query.filter(Tenant.id == id).first()
+    if existing:
+        env = Environment.query.filter(Environment.id == existing.env_id).first()
+        return render_template("tenant.html", tenant=existing, env=env)
+    return redirect(url_for('home'))
 
 @app.route('/tenant/create', methods=["GET", "POST"])
 def create():
@@ -145,34 +179,22 @@ def create():
         envs = environments_schema.dump(result)
         return render_template("create_tenant.html", envs=envs)
 
-@app.route('/tenant/<id>')
-def tenant(id):
-    try:
-        existing = Tenant.query.filter(Tenant.id == id).one_or_none()
-        if existing is None:
-            redirect(url_for('home'))
-        else:
-            environment = Environment.query.filter(Environment.id == existing.env_id).one_or_none()
-            if environment:
-                return render_template("tenant.html", tenant=existing, env=environment)
-            return redirect(url_for('home'))
-    except IndexError:
-        return redirect(url_for('home'))
-
 @app.route('/tenant/remove/<id>', methods=["GET", "POST"])
-def remove_tenant(id):
-    try:
-        existing = Tenant.query.filter(Tenant.id == id).one_or_none()
-        if existing:
-            if request.method == "POST":
-                db.session.delete(existing_tenant)
-                db.session.commit()
-                return redirect(url_for('home'))
-            else:
-                return render_template("remove_tenant.html", tenant=existing)
-        else:
+def del_tenant(id):
+    """ Renders Tenant remove confirmation view
+        -
+        Returns: remove_tenant.html
+                 redirect to home if cancel
+    """
+    existing = Tenant.query.filter(Tenant.id == id).one_or_none()
+    if existing:
+        if request.method == "POST":
+            db.session.delete(existing)
+            db.session.commit()
             return redirect(url_for('home'))
-    except IndexError:
+        else:
+            return render_template("remove_tenant.html", tenant=existing)
+    else:
         return redirect(url_for('home'))
 
 @app.route('/contact/<id_tenant>', methods=["GET", "POST"])
