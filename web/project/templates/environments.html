@@ -33,10 +33,10 @@
             <td>{{env.az_keyvault}}</td>
             <td>{{env.fmg_keyvault}}</td>
             <td>
-              <a class="btn btn-outline-primary btn-sm" role="button" href="{{ url_for('details_zone', id=env.id) }}">details</a>
+              <a class="btn btn-outline-primary btn-sm" role="button" href="{{ url_for('environment', id=env.id) }}">details</a>
             </td>
             <td>
-              <a class="btn btn-outline-danger btn-sm" role="button" href="{{ url_for('remove_env', id=env.id) }}">delete</a>
+              <a class="btn btn-outline-danger btn-sm" role="button" href="{{ url_for('del_environment', id=env.id) }}">delete</a>
             </td>
           </tr>
           {% endfor %}
@@ -48,7 +48,7 @@
             <td></td>
             <td></td>
             <td>
-              <a class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{{ url_for('environments') }}" role="button">create</a>
+              <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{{ url_for('environments') }}" role="button">create</a>
             </td>
           </tr>
           </tbody>
