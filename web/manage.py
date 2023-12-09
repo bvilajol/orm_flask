@@ -1,4 +1,5 @@
 import logging
+import json
 
 from flask.cli import FlaskGroup
 
@@ -47,14 +48,14 @@ def create_db():
     db.create_all()
     db.session.commit()
 
-@cli.command("seed_db")
+@cli.command("seed_db_base")
 def seed_db():
     obj_list = load_objects(file='seed_db.yml')
     db.session.add_all(obj_list)
     db.session.commit()
 
 @cli.command("seed_db_obj")
-def test():
+def seed_obj():
     obj_list = load_objects(file='seed_db_objects.yml')
     db.session.add_all(obj_list)
     db.session.commit()
